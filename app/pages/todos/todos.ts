@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
+import { TodoModel } from '../../shared/todo-model';
+
 /*
   Generated class for the TodosPage page.
 
@@ -12,23 +14,21 @@ import { NavController } from 'ionic-angular';
 })
 export class TodosPage {
 
-  private todos:any[];
+  private todos:TodoModel[];
 
   constructor(private navCtrl: NavController) {
 
     this.todos = [
-      {
-        description: "esto es una tarea",
-        isDone: false
-      },
-      {
-        description: "esto es otra tarea",
-        isDone: false
-      },
-      {
-        description: "esto es la tercera tarea",
-        isDone: false
-      }            
+      new TodoModel("this is an element"),
+      new TodoModel("this is an element"),
+      new TodoModel("this is an element"),
+      new TodoModel("this is an element"),
+      new TodoModel("this is an element"),          
+      new TodoModel("this is an element", true),
+      new TodoModel("this is an element"),
+      new TodoModel("this is an element", false, true),
+      new TodoModel("this is an element"),
+      new TodoModel("this is an element")
     ];
 
   }
