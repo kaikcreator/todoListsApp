@@ -12,7 +12,24 @@ import { NavController } from 'ionic-angular';
 })
 export class TodosPage {
 
+  private todos:any[];
+
   constructor(private navCtrl: NavController) {
+
+    this.todos = [
+      {
+        description: "esto es una tarea",
+        isDone: false
+      },
+      {
+        description: "esto es otra tarea",
+        isDone: false
+      },
+      {
+        description: "esto es la tercera tarea",
+        isDone: false
+      }            
+    ];
 
   }
 
