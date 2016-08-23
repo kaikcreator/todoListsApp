@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-toolbar primary>
-    <ion-title>Add new task</ion-title>
+    <ion-title>{{title}}</ion-title>
     <ion-buttons start>
       <button (click)="dismiss()">
         <span secondary showWhen="ios">Cancel</span>
@@ -41,7 +41,7 @@
       </ion-item>
 
       <div class="submit-button">
-        <button block type="submit" [disabled]="!descriptionState.valid">Add</button>
+        <button block type="submit" [disabled]="!descriptionState.valid">{{buttonText}}</button>
       </div>
 
     </form>
