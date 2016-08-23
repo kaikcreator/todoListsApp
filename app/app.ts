@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import { disableDeprecatedForms, provideForms} from '@angular/forms';
 import {Platform, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {TodosPage} from './pages/todos/todos';
@@ -19,4 +20,6 @@ export class MyApp {
   }
 }
 
-ionicBootstrap(MyApp);
+ionicBootstrap(MyApp, 
+  [disableDeprecatedForms(), provideForms()]
+).catch(err => console.log(err));
