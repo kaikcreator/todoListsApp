@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController, Platform } from 'ionic-angular';
 
 import { TodoModel } from '../../shared/todo-model';
 import { TodoService } from '../../shared/todo-service';
@@ -20,12 +20,13 @@ import { DoneTodosPipe } from '../../pipes/DoneTodosPipe';
 })
 export class TodosPage {
 
-  
+  private toogleTodoTimeout = null;
 
   constructor(
     private navCtrl: NavController, 
     private modalCtrl: ModalController, 
-    private todoService:TodoService) {}
+    private todoService:TodoService, 
+    private platform: Platform) {}
   
 
   setTodoStyles(item:TodoModel){
@@ -41,7 +42,13 @@ export class TodosPage {
 
 
   toogleTodo(todo:TodoModel){
-    this.todoService.toogleTodo(todo);
+    if(this.toogleTodoTimeout)
+      return;
+
+    this.toogleTodoTimeout = setTimeout(()=>{
+      this.todoService.toogleTodo(todo);
+      this.toogleTodoTimeout = null;
+    }, this.platform.is('ios') ? 0 : 300);
   }
 
   removeTodo(todo:TodoModel){

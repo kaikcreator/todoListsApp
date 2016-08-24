@@ -16,7 +16,6 @@ export class PrioritizedTodosPipe {
     Takes a value and makes it lowercase.
    */
   transform(todos: TodoModel[]) {
-    console.log("prioritized todos pipe");
     return todos.filter( todo => !todo.isDone).sort((a, b) => (b.isImportant && !a.isImportant) ? 1 : -1);
   }
 }
