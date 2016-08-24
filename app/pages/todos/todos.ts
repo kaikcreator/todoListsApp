@@ -4,6 +4,8 @@ import { NavController, ModalController } from 'ionic-angular';
 import { TodoModel } from '../../shared/todo-model';
 import { TodoService } from '../../shared/todo-service';
 import { AddTaskModalPage } from '../add-task-modal/add-task-modal';
+import { PrioritizedTodosPipe } from '../../pipes/PrioritizedTodosPipe';
+import { DoneTodosPipe } from '../../pipes/DoneTodosPipe';
 
 /*
   Generated class for the TodosPage page.
@@ -13,7 +15,8 @@ import { AddTaskModalPage } from '../add-task-modal/add-task-modal';
 */
 @Component({
   templateUrl: 'build/pages/todos/todos.html',
-  providers: [TodoService]
+  providers: [TodoService],
+  pipes: [PrioritizedTodosPipe, DoneTodosPipe]
 })
 export class TodosPage {
 

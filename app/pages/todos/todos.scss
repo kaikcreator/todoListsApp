@@ -8,5 +8,38 @@
         z-index: 10;
     }
 
+    h3:first-child{
+        margin-top: 0.3em;
+    } 
+
+    ion-list{
+        //beginning of the list 
+        .item-wrapper:first-child .item{
+            border-top: none;
+        }
+
+        //end of the list when there are no tasks
+        .item-wrapper:last-child .item{
+            border-bottom: none;
+        }
+
+        //end of the done tasks list
+        .item:last-child{
+            border-bottom: none;
+        }
+
+        //end of pending tasks when there are done tasks
+        ion-item-sliding:last-of-type .item-inner{
+            border-bottom: none;
+        }
+
+        ion-item-divider{
+            padding-top: 10px;
+            background-color: transparent;
+            color: map-get($colors, light);
+            font-style: italic;
+        }
+    }
+
 }
 
