@@ -2,14 +2,14 @@ import {Component} from '@angular/core';
 import { disableDeprecatedForms, provideForms} from '@angular/forms';
 import {Platform, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
-import {TodosPage} from './pages/todos/todos';
+import {ListsPage} from './pages/lists/lists';
 
 
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>'
 })
 export class MyApp {
-  rootPage: any = TodosPage;
+  rootPage: any = ListsPage;
 
   constructor(platform: Platform) {
     platform.ready().then(() => {
