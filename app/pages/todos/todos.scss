@@ -13,6 +13,16 @@
     } 
 
     ion-list{
+
+        .no-todos{
+            border:none;
+            color: map-get($colors, light);
+            font-style: italic;
+            margin-top: 50px;
+            text-align: center;
+            font-size: 1.3em;
+        }
+
         //beginning of the list 
         .item-wrapper:first-child .item{
             border-top: none;
