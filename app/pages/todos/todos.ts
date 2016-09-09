@@ -33,6 +33,10 @@ export class TodosPage {
       this.list = this.navParams.get('list');
       this.todoService.loadFromList(this.list.id);
     }
+
+  ionViewWillUnload(){
+    this.todoService.saveLocally(this.list.id);
+  }
   
 
   setTodoStyles(item:TodoModel){

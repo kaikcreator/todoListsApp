@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import {Storage, LocalStorage} from 'ionic-angular';
 
 import { ListModel } from './list-model';
 
@@ -14,27 +15,40 @@ import { ListModel } from './list-model';
 export class ListsService {
 
   public lists:ListModel[] = [];
+  private local:Storage;
 
   constructor(private http: Http) {
+    this.local = new Storage(LocalStorage);
     this.getLists();
   }
 
   private getLists(){
-    this.lists = [
-      new ListModel("My list #1", 0),
-      new ListModel("My list #2", 1),
-      new ListModel("My list #3", 2),
-      new ListModel("My list #4", 3),
-      new ListModel("My list #5", 4),
-      new ListModel("My list #6", 5),
-      new ListModel("My list #7", 6)
-    ];
+    this.getFromLocal();
   }
 
   public addList(name:string){
     let list = new ListModel(name, this.lists.length);
     this.lists = [...this.lists, list];
+    return list;
   }
 
+  private getFromLocal(){
+    return this.local.get('lists').then(
+      data => {
+        let localLists:ListModel[] = [];
+        if(data){
+          data = JSON.parse(data);
+          for(let list of data){
+            localLists.push(new ListModel(list.name, list.id));
+          }
+        }
+        this.lists = localLists;
+      }
+    );
+  }
+
+  public saveLocally(){
+    this.local.set('lists', JSON.stringify(this.lists));
+  }
 }
 

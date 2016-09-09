@@ -24,7 +24,9 @@ export class ListsPage {
   }
 
   addNewList(name:string){
-    this.listsService.addList(name);
+    let list = this.listsService.addList(name);
+    this.listsService.saveLocally();
+    this.goToList(list);
   }
 
   showAddList(){
