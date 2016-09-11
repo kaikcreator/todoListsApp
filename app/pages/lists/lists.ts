@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController, LoadingController } from 'ionic-angular';
 
 import { TodosPage } from '../todos/todos';
 import { ListsService } from '../../shared/lists-service';
@@ -17,16 +17,20 @@ import { ListModel } from '../../shared/list-model';
 })
 export class ListsPage {
 
-  constructor(private navCtrl: NavController, private alertCtrl: AlertController, private listsService: ListsService) {}
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController, private listsService: ListsService, private loadingCtrl: LoadingController) {}
 
   goToList(list:ListModel){
     this.navCtrl.push(TodosPage, {list} );
   }
 
   addNewList(name:string){
-    let list = this.listsService.addList(name);
-    this.listsService.saveLocally();
-    this.goToList(list);
+    let loader = this.loadingCtrl.create();
+    loader.present();
+    this.listsService.addList(name)
+    .subscribe(list => {
+      this.goToList(list);
+      loader.dismiss();
+    }, error => {loader.dismiss();});
   }
 
   showAddList(){
@@ -46,7 +50,10 @@ export class ListsPage {
         },
         {
           text:'Add',
-          handler: data => {this.addNewList(data.name);}
+          handler: data => {
+            let navTransition = addListAlert.dismiss();
+            navTransition.then(()=>{this.addNewList(data.name)});
+          }
         }
       ]
     });
