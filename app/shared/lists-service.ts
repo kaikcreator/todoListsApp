@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import {Storage, LocalStorage} from 'ionic-angular';
 
 import { ListModel } from './list-model';
+import { AppSettings } from './app-settings';
 
 /*
   Generated class for the ListsService provider.
@@ -23,7 +24,9 @@ export class ListsService {
   }
 
   private getLists(){
-    this.getFromLocal();
+    this.getFromLocal()
+    .then(() => {this.getFromServer()}, 
+          () => {this.getFromServer()});
   }
 
   public addList(name:string){
@@ -45,6 +48,25 @@ export class ListsService {
         this.lists = localLists;
       }
     );
+  }
+
+  private getFromServer(){
+    this.http.get(`${AppSettings.API_ENDPOINT}/lists`)
+        .map(response => { return response.json()})
+        .map((lists:Object[]) =>{
+          return lists.map(item => ListModel.fromJson(item));
+        })
+        .subscribe(
+          (result:ListModel[]) =>{
+            this.lists = result;
+            this.saveLocally();
+          },
+          error => {
+            console.log("Error loading lists from server", error);
+          }
+
+        )
+
   }
 
   public saveLocally(){
