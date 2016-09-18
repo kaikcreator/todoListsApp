@@ -79,7 +79,7 @@ export class ListsPage {
   }
 
   removeSelectedList(){
-    console.log("this list should be removed");
+    this.listsService.removeList(this.selectedList);
     this.selectedList = null;
   }
 
