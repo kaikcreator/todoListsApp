@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Storage, LocalStorage } from 'ionic-angular';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/share';  
 
 import { TodoModel } from './todo-model';
 import { AppSettings } from './app-settings';
@@ -64,13 +67,38 @@ export class TodoService {
       )
   }
 
+  private postNewTodoToServer(todo:TodoModel): Observable<TodoModel>{
+    let observable = this.http.post(`${AppSettings.API_ENDPOINT}/lists/${todo.listId}/todos`,
+    {
+      description: todo.description,
+      isImportant: todo.isImportant,
+      isDone: todo.isDone
+    })
+    .map(response => response.json())
+    .map(todo => TodoModel.fromJson(todo))
+    .share();
+
+    return observable;
+  }
+
 
   public saveLocally(id:number){
     this.local.set(`list/${id}`, JSON.stringify(this.todos));
   }
 
   addTodo(todo:TodoModel){
-    this.todos = [...this.todos, todo];
+    let observable = this.postNewTodoToServer(todo);
+
+    observable.subscribe(
+      (todo:TodoModel) =>{
+        this.todos = [...this.todos, todo];
+        this.saveLocally(todo.listId);
+      },
+      error => console.log("Error trying to post a new list")
+    );
+
+    return observable;
+    
   }
 
   removeTodo(todo:TodoModel){
